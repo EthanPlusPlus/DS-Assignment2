@@ -11,20 +11,23 @@ import java.util.Scanner;
  */
 public class KnowledgeBase {
 
-    public static BinarySearchTree<Record> base;
+
+
+    public static AVLTree<Record> base;
 
     public static int n = 0;
 
     public static boolean notFirstTime = false;
 
-    public KnowledgeBase() {}
+    public static int sCount, iCount; 
+    
 
     /**
      * CreateBase calls on BST constructor and initialises base
      */
     public static void CreateBase() {
 
-        base = new BinarySearchTree<Record>();
+        base = new AVLTree<Record>();
 
     }
 
@@ -49,19 +52,33 @@ public class KnowledgeBase {
      *
      * @param record    Record to be added
      */
-    public static void AddToKB(Record record) {
+    public static void AddToInitialKB(Record record) {
 
-        BinarySearchTree<Record>.BinaryTreeNode<Record> node = base.find(record);
+        base.insert(record);        
 
-        if (node != null && record.getConfScore() >= node.data.getConfScore())
-            node.data.update(record);
+        // BinaryTreeNode<Record> node = base.find(record);
+
+        // if (node != null && record.getConfScore() >= node.data.getConfScore())
+        //     node.data.update(record);
+        // else
+        //     base.insert(record);
+
+    }
+
+    public static void QueryKB(Record record) {
+
+        BinaryTreeNode<Record> node = base.find(record);
+
+        if ( node != null )
+            System.out.println(node.data);
         else
-            base.insert(record);
+            System.out.println("Term not found: " + record.getTerm());
+
 
     }
 
     /**
-     * Searches KB for a Record using only the unique term. Utilises the find method in the BinarySearchTree
+     * Searches KB for a Record using only the unique term. Utilises the find method in the AVLAVLTree
      *  class
      * @param term  Unique string key as search term
      * @return  Desired Record is returned
@@ -74,7 +91,7 @@ public class KnowledgeBase {
     }
 
     /**
-     * Searches KB for a Record using the unique term and it's statement. Utilises the find method in the BinarySearchTree
+     * Searches KB for a Record using the unique term and it's statement. Utilises the find method in the AVLAVLTree
      *  class
      * @param term  THe term we want to find
      * @param stmnt The statement we want to find
@@ -99,6 +116,10 @@ public class KnowledgeBase {
 
     }
 
+    public static Record QueryToRecord(String query) {
+        return CreateRecord(query, query, 0);
+    }
+
     /**
      * A textfile is read using a Scanner and a loop. The lines are converted to Records and then stored in the
      *  KnowledgeBase
@@ -107,18 +128,33 @@ public class KnowledgeBase {
      */
     public static void ReadFile(String pathname) {
 
-        if (!notFirstTime)
-            CreateBase();
 
         try {
 
             Scanner sc = new Scanner(new File(pathname));
             System.out.println("File has been found.");
-            while (sc.hasNextLine()) {
 
-                String str = sc.nextLine();
+            if (!notFirstTime){
 
-                AddToKB( LineToRecord( str ) );
+                CreateBase();
+
+                while (sc.hasNextLine()) {
+
+                    String str = sc.nextLine();
+
+                    AddToInitialKB( LineToRecord( str ) );
+
+                }
+
+            } else {
+
+                while (sc.hasNextLine()) {
+
+                    String str = sc.nextLine();
+
+                    QueryKB( QueryToRecord( str ) );
+
+                }
 
             }
             sc.close();
