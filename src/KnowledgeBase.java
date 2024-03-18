@@ -153,35 +153,6 @@ public class KnowledgeBase {
                 }
             }
 
-            // if (!notFirstTime){
-
-            //     CreateBase();
-
-            //     int counter = 0;
-            //     while (sc.hasNextLine() && counter <= n) {
-
-            //         String str = sc.nextLine();
-
-            //         AddToInitialKB( LineToRecord( str ) );
-                    
-            //         counter++;
-
-            //     }
-
-            // } else {
-
-            //     int counter = 0;
-            //     while (sc.hasNextLine() && counter <= n) {
-
-            //         String str = sc.nextLine();
-
-            //         QueryKB( QueryToRecord( str ) );
-
-            //         counter++;
-
-            //     }
-
-            // }
             sc.close();
             System.out.println("Successfully updated the knowledge base!\n");
         }
