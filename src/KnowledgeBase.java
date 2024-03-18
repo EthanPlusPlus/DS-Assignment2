@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 /**
@@ -126,37 +128,60 @@ public class KnowledgeBase {
      * @param pathname  The name of the textfile that must be in the same location
      *  as the java file (directory should work as well)
      */
-    public static void ReadFile(String pathname) {
+    public static void ReadFile(String pathname, int n) {
 
+        //Collections.shuffle(null);
 
         try {
 
             Scanner sc = new Scanner(new File(pathname));
             System.out.println("File has been found.");
 
+            ArrayList<Record> list = GetSubset(n, sc);
+
             if (!notFirstTime){
-
-                CreateBase();
-
-                while (sc.hasNextLine()) {
-
-                    String str = sc.nextLine();
-
-                    AddToInitialKB( LineToRecord( str ) );
+                for (int i = 0; i < list.size(); i++) {
+                    
+                    AddToInitialKB( list.get(i) );
 
                 }
-
             } else {
-
-                while (sc.hasNextLine()) {
-
-                    String str = sc.nextLine();
-
-                    QueryKB( QueryToRecord( str ) );
+                for (int i = 0; i < list.size(); i++) {
+                    
+                    QueryKB( list.get(i) );
 
                 }
-
             }
+
+            // if (!notFirstTime){
+
+            //     CreateBase();
+
+            //     int counter = 0;
+            //     while (sc.hasNextLine() && counter <= n) {
+
+            //         String str = sc.nextLine();
+
+            //         AddToInitialKB( LineToRecord( str ) );
+                    
+            //         counter++;
+
+            //     }
+
+            // } else {
+
+            //     int counter = 0;
+            //     while (sc.hasNextLine() && counter <= n) {
+
+            //         String str = sc.nextLine();
+
+            //         QueryKB( QueryToRecord( str ) );
+
+            //         counter++;
+
+            //     }
+
+            // }
             sc.close();
             System.out.println("Successfully updated the knowledge base!\n");
         }
@@ -165,6 +190,45 @@ public class KnowledgeBase {
         }
 
         notFirstTime = true;
+
+    }
+
+    private static ArrayList<Record> GetSubset(int n, Scanner sc) {
+
+        ArrayList<Record> list = new ArrayList<>();
+
+        if (!notFirstTime){
+
+            CreateBase();
+
+            int counter = 0;
+            while (sc.hasNextLine() && counter <= n) {
+
+                String str = sc.nextLine();
+
+                list.add( LineToRecord(str) );
+                
+                counter++;
+
+            }
+
+        } else {
+
+            int counter = 0;
+            while (sc.hasNextLine() && counter <= n) {
+
+                String str = sc.nextLine();
+
+                list.add( QueryToRecord( str ) );
+
+                counter++;
+
+            }
+        }
+
+        Collections.shuffle(list);
+
+        return list;
 
     }
 
