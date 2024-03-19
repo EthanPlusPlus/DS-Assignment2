@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -131,34 +132,39 @@ public class KnowledgeBase {
     public static void ReadFile(String pathname, int n) {
 
         //Collections.shuffle(null);
+            try {
 
-        try {
+                Scanner sc = new Scanner(new File(pathname));
+                System.out.println("File has been found.");
 
-            Scanner sc = new Scanner(new File(pathname));
-            System.out.println("File has been found.");
+                if (!notFirstTime){
 
-            ArrayList<Record> list = GetSubset(n, sc);
+                    ArrayList<Record> list = GetSubset(n, sc);
 
-            if (!notFirstTime){
-                for (int i = 0; i < list.size(); i++) {
+                    for (int i = 0; i < list.size(); i++) {
+                        
+                        AddToInitialKB( list.get(i) );
+
+                    }
                     
-                    AddToInitialKB( list.get(i) );
+                } else {
+                
+                    while (sc.hasNextLine()) {
+
+                        String str = sc.nextLine();
+        
+                        QueryKB( QueryToRecord( str ) );
+        
+                    }
 
                 }
-            } else {
-                for (int i = 0; i < list.size(); i++) {
-                    
-                    QueryKB( list.get(i) );
 
-                }
+                sc.close();
+                System.out.println("Successfully updated the knowledge base!\n");
             }
-
-            sc.close();
-            System.out.println("Successfully updated the knowledge base!\n");
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("File not found! Please try again.\n");
-        }
+            catch (FileNotFoundException e) {
+                System.out.println("File not found! Please try again.\n");
+            }
 
         notFirstTime = true;
 
@@ -173,28 +179,26 @@ public class KnowledgeBase {
             CreateBase();
 
             int counter = 0;
-            while (sc.hasNextLine() && counter <= n) {
+            
+            Random random = new Random();
+            int offset = random.nextInt(0, 50001 - n);
+
+            while (sc.hasNextLine() && counter <= offset + n) {
+
+                counter++;
 
                 String str = sc.nextLine();
+
+                if (counter < offset){
+                    continue;
+                }
+
+                
 
                 list.add( LineToRecord(str) );
-                
-                counter++;
 
             }
 
-        } else {
-
-            int counter = 0;
-            while (sc.hasNextLine() && counter <= n) {
-
-                String str = sc.nextLine();
-
-                list.add( QueryToRecord( str ) );
-
-                counter++;
-
-            }
         }
 
         Collections.shuffle(list);
