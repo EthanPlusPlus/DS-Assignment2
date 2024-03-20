@@ -146,6 +146,8 @@ public class KnowledgeBase {
                         AddToInitialKB( list.get(i) );
 
                     }
+
+                    notFirstTime = true;
                     
                 } else {
                 
@@ -157,6 +159,8 @@ public class KnowledgeBase {
         
                     }
 
+                    notFirstTime = false;
+
                 }
 
                 sc.close();
@@ -166,7 +170,6 @@ public class KnowledgeBase {
                 System.out.println("File not found! Please try again.\n");
             }
 
-        notFirstTime = true;
 
     }
 

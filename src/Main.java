@@ -1,19 +1,33 @@
 public class Main {
     
-    final static String file1 = "GenericsKB.txt";
-    final static String file2 = "GenericsKB-queries.txt";
+    private final static String file1 = "GenericsKB.txt";
+    private final static String file2 = "GenericsKB-queries.txt";
 
-    final static int n = 1;
+    private static int[] instruments = new int[20];
+
 
     public static void main(String[] args) {
 
-        
-        KnowledgeBase.ReadFile(file1, n);
-    
-        KnowledgeBase.ReadFile(file2, n);
+        int[] n = {1, 10, 55, 100, 550, 1000, 5500, 10000, 30000, 50000};
+        int epoch = 0;
+        for (int i : n) {
+            
 
-        System.out.println(KnowledgeBase.iCount);
-        System.out.println(KnowledgeBase.sCount);
+            KnowledgeBase.ReadFile(file1, i);
+    
+            KnowledgeBase.ReadFile(file2, i);
+
+            instruments[epoch++] = KnowledgeBase.iCount;
+            instruments[epoch++] = KnowledgeBase.sCount;
+
+            KnowledgeBase.iCount = 0;
+            KnowledgeBase.sCount = 0;
+
+        }
+
+        for (int i : instruments) {
+            System.out.println(i);
+        }
 
     }
 
