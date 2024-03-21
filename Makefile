@@ -23,7 +23,7 @@ clean:
 
 run:
 	java -cp $(BINDIR) Main > output.txt
-	tail -n 20 output.txt > instruments.txt
+	tail -n 60 output.txt > instruments.txt
 	python3 $(SRCDIR)/graphs.py
 
 javadoc:

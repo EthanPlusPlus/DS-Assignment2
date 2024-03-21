@@ -22,8 +22,6 @@ public class KnowledgeBase {
 
     public static boolean notFirstTime = false;
 
-    public static int sCount, iCount; 
-    
 
     /**
      * CreateBase calls on BST constructor and initialises base
@@ -57,7 +55,9 @@ public class KnowledgeBase {
      */
     public static void AddToInitialKB(Record record) {
 
-        base.insert(record);        
+        base.insert(record);   
+        
+        Main.UpdateInsertInstrument();
 
         // BinaryTreeNode<Record> node = base.find(record);
 
@@ -77,6 +77,7 @@ public class KnowledgeBase {
         else
             System.out.println("Term not found: " + record.getTerm());
 
+        Main.UpdateSearchInstrument();
 
     }
 

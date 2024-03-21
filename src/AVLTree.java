@@ -69,10 +69,10 @@ public class AVLTree<dataType extends Comparable<? super dataType>> extends Bina
       if (node == null)
          return new BinaryTreeNode<dataType> (d, null, null);
       if (d.compareTo (node.data) <= 0){
-         KnowledgeBase.iCount++;
+         Main.iCount++;
          node.left = insert (d, node.left);
       }else{
-         KnowledgeBase.iCount++;
+         Main.iCount++;
          node.right = insert (d, node.right);
       }
       return balance (node);
@@ -121,7 +121,7 @@ public class AVLTree<dataType extends Comparable<? super dataType>> extends Bina
 
    public BinaryTreeNode<dataType> find ( dataType d )
    {
-      KnowledgeBase.sCount++; 
+      //Main.sCount++; 
       if (root == null)
          return null;
       else
@@ -130,13 +130,13 @@ public class AVLTree<dataType extends Comparable<? super dataType>> extends Bina
    public BinaryTreeNode<dataType> find ( dataType d, BinaryTreeNode<dataType> node )
    {
       if (d.compareTo (node.data) == 0){
-         KnowledgeBase.sCount += 1;
+         Main.sCount += 1;
          return node;
       }else if (d.compareTo (node.data) < 0){
-         KnowledgeBase.sCount += 2;
+         Main.sCount += 2;
          return (node.left == null) ? null : find (d, node.left);
       }else{
-         KnowledgeBase.sCount += 2;
+         Main.sCount += 2;
          return (node.right == null) ? null : find (d, node.right);
       }
    }
