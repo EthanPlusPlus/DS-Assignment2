@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class Main {
     
     private final static String file1 = "GenericsKB.txt";
@@ -5,7 +7,7 @@ public class Main {
 
     public static int sCount, iCount, sTotal, iTotal, sBest, iBest, sWorst, iWorst, sN, iN, sAvg, iAvg; 
 
-    private static int[] instruments = new int[60];
+    private static int[] iAvgArr= new int[10], sAvgArr= new int[10], iWorstArr= new int[10], sWorstArr= new int[10], iBestArr= new int[10], sBestArr = new int[10];
 
     private static boolean notFirstRecord = false;
 
@@ -19,12 +21,15 @@ public class Main {
             KnowledgeBase.ReadFile(file1, i);
             KnowledgeBase.ReadFile(file2, i);
 
-            instruments[epoch++] = iBest;
-            instruments[epoch++] = iWorst;
-            instruments[epoch++] = GetInsertAverage();
-            instruments[epoch++] = sBest;
-            instruments[epoch++] = sWorst;
-            instruments[epoch++] = GetSearchAverage();
+            iAvgArr[epoch] = GetInsertAverage();
+            sAvgArr[epoch] = GetSearchAverage();
+            iBestArr[epoch] = iBest;
+            iWorstArr[epoch] = iWorst;
+            System.out.println("ethan is a "+iWorst+" "+iWorstArr[epoch]);
+            sBestArr[epoch] = sBest;
+            sWorstArr[epoch] = sWorst;
+            epoch++;
+            
 
             iCount = 0;
             sCount = 0;
@@ -40,8 +45,18 @@ public class Main {
 
         }
 
-        for (int i : instruments) {
-            System.out.println(i);
+        ArrayList<int[]> instruments = new ArrayList<>();
+        instruments.add(iAvgArr);
+        instruments.add(sAvgArr);
+        instruments.add(iBestArr);
+        instruments.add(iWorstArr);
+        instruments.add(sBestArr);
+        instruments.add(sWorstArr);
+
+        for (int[] i : instruments) {
+            for (int j : i) {
+                System.out.println(j);
+            }
         }
 
     }
@@ -51,8 +66,9 @@ public class Main {
         if (iCount < iBest)
             iBest = iCount;
 
-        if (iCount > iWorst)
+        if (iCount > iWorst){ //problem
             iWorst = iCount;
+        }
 
         iTotal += iCount;
         iCount = 0;
