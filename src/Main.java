@@ -1,9 +1,14 @@
 import java.util.ArrayList;
 
+/**
+ * This class initiates and runs the program with regards to the knowledge base. 
+ * It also controls and manages the experiments, including automation of the varying of n and the storing of the values of counter.
+ * 
+ */
 public class Main {
     
     private final static String file1 = "GenericsKB.txt";
-    private final static String file2 = "GenericsKB-queries.txt";
+    private final static String file2 = "test.txt";//"GenericsKB-queries.txt";
 
     public static int sCount, iCount, sTotal, iTotal, sBest, iBest, sWorst, iWorst, sN, iN, sAvg, iAvg; 
 
@@ -11,6 +16,12 @@ public class Main {
 
     private static boolean notFirstRecord = false;
 
+    /**
+     * Initiates program and holds the the values n to be used; spaced evenly on the logarithmic scale.
+     * It stores each counter after it has been processed and thereafter resets it.
+     * Counters are added to the a list to be print to STDOUT.
+     * @param args
+     */
     public static void main(String[] args) {
 
         int[] n = {1, 10, 55, 100, 550, 1000, 5500, 10000, 30000, 50000};
@@ -25,7 +36,6 @@ public class Main {
             sAvgArr[epoch] = GetSearchAverage();
             iBestArr[epoch] = iBest;
             iWorstArr[epoch] = iWorst;
-            System.out.println("ethan is a "+iWorst+" "+iWorstArr[epoch]);
             sBestArr[epoch] = sBest;
             sWorstArr[epoch] = sWorst;
             epoch++;
@@ -61,6 +71,9 @@ public class Main {
 
     }
 
+    /**
+     * A method call will use the counter that is tracking insert operations and process it to update the best, worst and sums up total for calculating the average.
+     */
     public static void UpdateInsertInstrument() {
 
         if (iCount < iBest)
@@ -77,6 +90,9 @@ public class Main {
 
     }
 
+    /**
+     * A method call will use the counter that is tracking search operations and process it to update the best, worst and sums up total for calculating the average.
+     */
     public static void UpdateSearchInstrument() {
 
         if (!notFirstRecord || sCount < sBest)
@@ -94,12 +110,20 @@ public class Main {
 
     }
 
+    /**
+     * Calculates the average of the insert operations from each insert
+     * @return average of the insert operations from each insert
+     */
     public static int GetInsertAverage() {
 
         return (int)(iTotal / iN);
 
     }
 
+     /**
+     * Calculates the average of the search operations from each insert
+     * @return average of the search operations from each search
+     */
     public static int GetSearchAverage() {
 
         return (int)(sTotal / sN);

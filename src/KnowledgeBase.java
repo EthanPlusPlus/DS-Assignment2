@@ -6,15 +6,9 @@ import java.util.Random;
 import java.util.Scanner;
 
 /**
- *
- * KnowledgeBase is the memory where the data is loaded and contained. It is uses the array data structure and
- *  binary search tree data structure for the respective apps.
- *
- *
+ * KnowledgeBase is the memory where the data is loaded and contained. It is uses the AVL tree data structure and
  */
 public class KnowledgeBase {
-
-
 
     public static AVLTree<Record> base;
 
@@ -24,7 +18,7 @@ public class KnowledgeBase {
 
 
     /**
-     * CreateBase calls on BST constructor and initialises base
+     * CreateBase calls on AVL constructor and initialises base
      */
     public static void CreateBase() {
 
@@ -47,9 +41,7 @@ public class KnowledgeBase {
     }
 
     /**
-     * Adds a Record to the KnowledgeBase. It first checks if the Record exists in the KB, if so then that
-     *  Record is replaced if the new confidence score is higher, if not, for the array app, it is not added unless
-     *  it is the first file loaded, for the BST app is added as a leaf.
+     * Adds a Record to the KnowledgeBase upon the first run of ReadFile(For the first textfile). It depends on the AVL Tree class insert. It will then update the instruments involved in the insertion.
      *
      * @param record    Record to be added
      */
@@ -59,15 +51,13 @@ public class KnowledgeBase {
         
         Main.UpdateInsertInstrument();
 
-        // BinaryTreeNode<Record> node = base.find(record);
-
-        // if (node != null && record.getConfScore() >= node.data.getConfScore())
-        //     node.data.update(record);
-        // else
-        //     base.insert(record);
-
     }
 
+    /**
+     * Checks if a term exists in the KnowledgeBase upon the second run of ReadFile(For the query textfile). It depends on the AVL Tree class find. It will then update the instruments involved in the search.
+     *
+     * @param record Record to be found
+     */
     public static void QueryKB(Record record) {
 
         BinaryTreeNode<Record> node = base.find(record);
@@ -82,7 +72,7 @@ public class KnowledgeBase {
     }
 
     /**
-     * Searches KB for a Record using only the unique term. Utilises the find method in the AVLAVLTree
+     * Searches KB for a Record using only the unique term. Utilises the find method in the AVLTree
      *  class
      * @param term  Unique string key as search term
      * @return  Desired Record is returned
@@ -95,7 +85,7 @@ public class KnowledgeBase {
     }
 
     /**
-     * Searches KB for a Record using the unique term and it's statement. Utilises the find method in the AVLAVLTree
+     * Searches KB for a Record using the unique term and it's statement. Utilises the find method in the AVLTree
      *  class
      * @param term  THe term we want to find
      * @param stmnt The statement we want to find
@@ -120,13 +110,20 @@ public class KnowledgeBase {
 
     }
 
+    /**
+     * A line containing only a term converted to a Record
+     * @param query A term
+     * @return Record with the query
+     */
     public static Record QueryToRecord(String query) {
         return CreateRecord(query, query, 0);
     }
 
     /**
      * A textfile is read using a Scanner and a loop. The lines are converted to Records and then stored in the
-     *  KnowledgeBase
+     *  KnowledgeBase.
+     * The first call will use AddToInitialKB in order to load the KB. 
+     * The second call will use QUeryKB to compare queries to the KB.
      * @param pathname  The name of the textfile that must be in the same location
      *  as the java file (directory should work as well)
      */
@@ -174,6 +171,13 @@ public class KnowledgeBase {
 
     }
 
+    /**
+     * This method creates a random subset from using the Scanner used in a file.
+     * It first defines an offset to start from and then obtains the subset of size n. The list is then shuffled
+     * @param n Size of subset
+     * @param sc Scanner used to read file
+     * @return List of subset
+     */
     private static ArrayList<Record> GetSubset(int n, Scanner sc) {
 
         ArrayList<Record> list = new ArrayList<>();

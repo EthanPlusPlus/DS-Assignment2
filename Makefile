@@ -13,7 +13,7 @@ DATADIR = data
 
 CLASSES = $(SRCDIR)/*.java
 
-default: classes run
+default: classes run javadoc
 
 classes: 
 	$(JC) $(JFLAGS) -cp $(BINDIR) $(CLASSES) -d $(BINDIR)
